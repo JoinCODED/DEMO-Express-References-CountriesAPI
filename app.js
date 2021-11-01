@@ -1,20 +1,26 @@
 const express = require("express");
+const morgan = require("morgan");
+
+// DB
 const connectDB = require("./db/database");
+
+// Routes
 const countryRoutes = require("./apis/countries/routes");
-// RESTful APIs
-// JSON
+
+// Middleware
+const errorHandler = require("./middleware/errorHandler");
 
 // Express instance
 const app = express();
 
-// Allows our app to access the body of the request
 // Middleware
 app.use(express.json());
-app.use("/api/countries", countryRoutes);
-// METHOD: GET / POST / DELETE / PUT
-// PATH: URL
+app.use(morgan("dev"));
 
-// My first route
+// Routes
+app.use("/api/countries", countryRoutes);
+
+app.use(errorHandler);
 
 connectDB();
 
