@@ -1,5 +1,5 @@
-const e = require("express");
 const Country = require("../../db/models/Country");
+const State = require("../../db/models/State");
 
 exports.fetchCountry = async (countryId, next) => {
   try {
@@ -13,7 +13,7 @@ exports.fetchCountry = async (countryId, next) => {
 // Country List Route
 exports.countryListFetch = async (req, res, next) => {
   try {
-    const countries = await Country.find();
+    const countries = await Country.find().populate("states");
     return res.json(countries);
   } catch (error) {
     next(error);
@@ -32,7 +32,20 @@ exports.countryCreate = async (req, res, next) => {
   }
 };
 
-exports.countryDelete = async (req, res, error) => {
+exports.stateCreate = async (req, res, next) => {
+  try {
+    req.body.country = req.params.countryId;
+    const newState = await State.create(req.body);
+    await Country.findOneAndUpdate(req.country, {
+      $push: { states: newState._id },
+    });
+    return res.status(201).json(newState);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.countryDelete = async (req, res) => {
   try {
     await req.country.remove();
     return res.status(204).end();
