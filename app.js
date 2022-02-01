@@ -1,24 +1,24 @@
-const express = require("express");
-const morgan = require("morgan");
+const express = require('express');
+const morgan = require('morgan');
 
 // DB
-const connectDB = require("./db/database");
+const connectDB = require('./db/database');
 
 // Routes
-const countryRoutes = require("./apis/countries/routes");
+const citiesRoutes = require('./apis/cities/routes');
 
 // Middleware
-const errorHandler = require("./middleware/errorHandler");
+const errorHandler = require('./middleware/errorHandler');
 
 // Express instance
 const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 
 // Routes
-app.use("/api/countries", countryRoutes);
+app.use('/api/cities', citiesRoutes);
 
 app.use(errorHandler);
 
