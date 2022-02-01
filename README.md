@@ -70,7 +70,7 @@
 
 1. Now let's create the relationship between our two models, `City` and `Country`. Let's think about it, every country can have _many_ cities, but every city can have _one_ country only.
 
-2. We will define our relationships first in `models/Country.js` as a field. Let's translate the following phrase to code "A country has many cities". So our country has a field of type array because it `hasMany` States.
+2. We will define our relationships first in `models/Country.js` as a field. Let's translate the following phrase to code "A country has many cities". So our country has a field of type array because it `hasMany` cities.
 
    ```javascript
    const CountrySchema = new Schema({
@@ -83,7 +83,7 @@
 3. Next, We will define our relationships from the other side in `models/City.js`:
 
    ```javascript
-   const StateSchema = new Schema({
+   const CitySchema = new Schema({
      name: String,
      image: String,
      country: { type: Schema.Types.ObjectId, ref: "Country" },
@@ -118,7 +118,7 @@ await Country.findOneAndUpdate(
 );
 ```
 
-4. Let's try creating another state, Wowwwww!!! Amaaazinng!
+4. Let's try creating another city, Wowwwww!!! Amaaazinng!
 
 ### Country List
 
@@ -142,4 +142,4 @@ We'll fix our cities list to return all cities, but to also add the country's na
    City.find().populate("country");
    ```
 
-2. Let's try fetching our list of states again. It works!
+2. Let's try fetching our list of cities again. It works!
